@@ -1,107 +1,140 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>猜拳遊戲</title>
 
-<head>
-	<meta charset="utf-8">
-	<title> 猜拳遊戲 </title>
+    <!-- #CSS Links -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="css/bootstrap/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="css/font/font-awesome.css"
+    />
 
-	<!-- #CSS Links -->
-	<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap/bootstrap.css">
-	<link rel="stylesheet" type="text/css" media="screen" href="css/font/font-awesome.css">
+    <!-- #FAVICONS -->
+    <link
+      rel="shortcut icon"
+      href="img/favicon/scissiors.ico"
+      type="image/x-icon"
+    />
+    <link rel="icon" href="img/favicon/scissiors.ico" type="image/x-icon" />
 
-	<!-- #FAVICONS -->
-	<link rel="shortcut icon" href="img/favicon/scissiors.ico" type="image/x-icon">
-	<link rel="icon" href="img/favicon/scissiors.ico" type="image/x-icon">
+    <!-- GOOGLE FONT -->
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700"
+    />
+  </head>
 
-	<!-- GOOGLE FONT -->
-	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
-</head>
+  <body>
+    <div style="text-align: center;margin-top: 30px">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="fa-2x">
+          <table class="table">
+            <thead>
+              <td>玩家</td>
+              <td>電腦</td>
+            </thead>
+            <div>結果: <span id="result"></span></div>
+            <tbody>
+              <td id="player" style="border: 0">
+                <img src="" style="width: 50%" />
+              </td>
+              <td id="com" style="border: 0">
+                <img src="" style="width: 50%" />
+              </td>
+            </tbody>
+          </table>
+        </div>
+        <br />
+        <div>
+          <button class="btn btn-primary scissiors" value="scissiors">
+            <img src="img/scissiors.png" style="width: 100px" /></button
+          >&emsp;
+          <button class="btn btn-danger rock" value="rock">
+            <img src="img/rock.png" style="width: 100px" /></button
+          >&emsp;
+          <button class="btn btn-success paper" value="paper">
+            <img src="img/paper.png" style="width: 100px" /></button
+          >&emsp;
+        </div>
+        <br />
+      </div>
+      <div class="fa-2x col-md-6 col-md-offset-3">
+        <div>玩家勝利次數 : <span id="player-win">0</span></div>
+        <div>電腦勝利次數 : <span id="com-win">0</span></div>
+        <div>平手次數 : <span id="draw">0</span></div>
+      </div>
+    </div>
+    <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="js/bootstrap/bootstrap.min.js"></script>
 
-<body>
-	<div style="text-align: center;margin-top: 30px">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="fa-2x">
-				<table class="table">
-					<thead>
-						<td>玩家</td>
-						<td>電腦</td>
-					</thead>
-					<div>結果: <span id="result"></span></div>
-					<tbody>
-						<td id="player" style="border: 0"><img src="" style="width: 50%"></td>
-						<td id="com" style="border: 0"><img src="" style="width: 50%"></td>
-					</tbody>
-				</table>
-			</div>
-			<br>
-			<div>
-				<button class="btn btn-primary scissiors" value="scissiors"><img src="img/scissiors.png" style="width: 100px"></button>&emsp;
-				<button class="btn btn-danger rock" value="rock"><img src="img/rock.png" style="width: 100px"></button>&emsp;
-				<button class="btn btn-success paper" value="paper"><img src="img/paper.png" style="width: 100px"></button>&emsp;
-			</div>
-			<br>
-		</div>
-		<div class="fa-2x col-md-6 col-md-offset-3">
-			<div>玩家勝利次數 : <span id="player-win">0</span></div>
-			<div>電腦勝利次數 : <span id="com-win">0</span></div>
-			<div>平手次數 : <span id="draw">0</span></div>
-		</div>
-	</div>
-	<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script src="js/bootstrap/bootstrap.min.js"></script>
+    <script>
+      var playerWin = 0;
+      var comWin = 0;
+      var draw = 0;
 
-	<script>
-		var playerWin = 0;
-		var comWin = 0;
-		var draw = 0;
+      $(document).ready(function() {
+        $(".scissiors").click(function() {
+          var player = $(".scissiors").val();
+          $("td#player img").remove();
+          $("td#player").append(
+            '<img src="img/scissiors.png" style="width: 50%">'
+          );
+          WinOrLose(player);
+        });
 
-		$(document).ready(function() {
-			$('.scissiors').click(function() {
-				var player = $('.scissiors').val();
-				$('td#player img').remove();
-				$('td#player').append('<img src="img/scissiors.png" style="width: 50%">');
-				WinOrLose(player);
-			});
+        $(".rock").click(function() {
+          var player = $(".rock").val();
+          $("td#player img").remove();
+          $("td#player").append('<img src="img/rock.png" style="width: 50%">');
+          WinOrLose(player);
+        });
 
-			$('.rock').click(function() {
-				var player = $('.rock').val();
-				$('td#player img').remove();
-				$('td#player').append('<img src="img/rock.png" style="width: 50%">');
-				WinOrLose(player);
-			});
+        $(".paper").click(function() {
+          var player = $(".paper").val();
+          $("td#player img").remove();
+          $("td#player").append('<img src="img/paper.png" style="width: 50%">');
+          WinOrLose(player);
+        });
+      });
 
-			$('.paper').click(function() {
-				var player = $('.paper').val();
-				$('td#player img').remove();
-				$('td#player').append('<img src="img/paper.png" style="width: 50%">');
-				WinOrLose(player);
-			});
-		})
+      function WinOrLose(player) {
+        var com = ["scissiors", "rock", "paper"];
+        var rps = parseInt(Math.random() * 3);
+        $("td#com img").remove();
+        $("td#com").append(
+          '<img src="img/' + com[rps] + '.png" style="width: 50%">'
+        );
 
-		function WinOrLose(player) {
-			var com = ["scissiors", "rock", "paper"];
-			var rps = parseInt(Math.random() * 3);
-			$('td#com img').remove();
-			$('td#com').append('<img src="img/' + com[rps] + '.png" style="width: 50%">');
-
-			if (player == com[rps]) {
-				draw++;
-				$('span#draw').html(draw);
-				$('#result').html("平手!");
-			} else {
-				if ((player == 'scissiors' && com[rps] == 'paper') || (player == 'rock' && com[rps] == 'scissiors') || (player == 'paper' && com[rps] == 'rock')) {
-					playerWin++;
-					$('span#player-win').html(playerWin);
-					$('#result').html("玩家贏!");
-				} else {
-					comWin++;
-					$('span#com-win').html(comWin);
-					$('#result').html("電腦贏!");
-				}
-			}
-		}
-	</script>
-</body>
-
+        if (player == com[rps]) {
+          draw++;
+          $("span#draw").html(draw);
+          $("#result").html("平手!");
+        } else {
+          if (
+            (player == "scissiors" && com[rps] == "paper") ||
+            (player == "rock" && com[rps] == "scissiors") ||
+            (player == "paper" && com[rps] == "rock")
+          ) {
+            playerWin++;
+            $("span#player-win").html(playerWin);
+            $("#result").html("玩家贏!");
+          } else {
+            comWin++;
+            $("span#com-win").html(comWin);
+            $("#result").html("電腦贏!");
+          }
+        }
+      }
+    </script>
+  </body>
 </html>
