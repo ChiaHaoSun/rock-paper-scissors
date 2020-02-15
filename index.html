@@ -42,9 +42,9 @@
 			<br>
 		</div>
 		<div class="fa-2x col-md-6 col-md-offset-3">
-			<div>玩家勝利次數 : <span id="p">0</span></div>
-			<div>電腦勝利次數 : <span id="c">0</span></div>
-			<div>平手次數 : <span id="d">0</span></div>
+			<div>玩家勝利次數 : <span id="player-win">0</span></div>
+			<div>電腦勝利次數 : <span id="com-win">0</span></div>
+			<div>平手次數 : <span id="draw">0</span></div>
 		</div>
 	</div>
 	<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
@@ -52,16 +52,15 @@
 	<script src="js/bootstrap/bootstrap.min.js"></script>
 
 	<script>
-		var p = 0;
-		var c = 0;
-		var d = 0;
+		var playerWin = 0;
+		var comWin = 0;
+		var draw = 0;
 
 		$(document).ready(function() {
 			$('.scissiors').click(function() {
 				var player = $('.scissiors').val();
 				$('td#player img').remove();
 				$('td#player').append('<img src="img/scissiors.png" style="width: 50%">');
-
 				WinOrLose(player);
 			});
 
@@ -69,7 +68,6 @@
 				var player = $('.rock').val();
 				$('td#player img').remove();
 				$('td#player').append('<img src="img/rock.png" style="width: 50%">');
-
 				WinOrLose(player);
 			});
 
@@ -77,29 +75,28 @@
 				var player = $('.paper').val();
 				$('td#player img').remove();
 				$('td#player').append('<img src="img/paper.png" style="width: 50%">');
-
 				WinOrLose(player);
 			});
 		})
 
 		function WinOrLose(player) {
-			var rps = ["scissiors", "rock", "paper"];
-			var com = parseInt(2 * Math.random());
+			var com = ["scissiors", "rock", "paper"];
+			var rps = parseInt(Math.random() * 3);
 			$('td#com img').remove();
-			$('td#com').append('<img src="img/' + rps[com] + '.png" style="width: 50%">');
+			$('td#com').append('<img src="img/' + com[rps] + '.png" style="width: 50%">');
 
-			if (player == rps[com]) {
-				d++;
-				$('span#d').html(d);
+			if (player == com[rps]) {
+				draw++;
+				$('span#draw').html(draw);
 				$('#result').html("平手!");
 			} else {
-				if ((player == 'scissiors' && rps[com] == 'paper') || (player == 'rock' && rps[com] == 'scissiors') || (player == 'paper' && rps[com] == 'rock')) {
-					p++;
-					$('span#p').html(p);
+				if ((player == 'scissiors' && com[rps] == 'paper') || (player == 'rock' && com[rps] == 'scissiors') || (player == 'paper' && com[rps] == 'rock')) {
+					playerWin++;
+					$('span#player-win').html(playerWin);
 					$('#result').html("玩家贏!");
 				} else {
-					c++;
-					$('span#c').html(c);
+					comWin++;
+					$('span#com-win').html(comWin);
 					$('#result').html("電腦贏!");
 				}
 			}
