@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>猜拳遊戲</title>
+
+    <!-- #CSS Links -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="css/bootstrap/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="css/font/font-awesome.css"
+    />
+
+    <!-- #FAVICONS -->
+    <link
+      rel="shortcut icon"
+      href="img/favicon/scissiors.ico"
+      type="image/x-icon"
+    />
+
+    <link rel="icon" href="img/favicon/scissiors.ico" type="image/x-icon" />
+    <!-- GOOGLE FONT -->
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700"
+    />
+  </head>
+
+  <body>
+    <div id="app">
+      <div style="text-align: center; margin-top: 30px;">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="fa-2x">
+            <table class="table">
+              <thead>
+                <td>玩家</td>
+                <td>電腦</td>
+              </thead>
+              <div>結果: <span id="result">{{ msg }}</span></div>
+              <tbody>
+                <td id="player" style="border: 0;">
+                  <img :src="pUrl" alt="" style="width: 50%;" />
+                </td>
+                <td id="com" style="border: 0;">
+                  <img :src="cUrl" alt="" style="width: 50%;" />
+                </td>
+              </tbody>
+            </table>
+          </div>
+          <br />
+          <div>
+            <button @click="scissor" class="btn btn-primary scissiors">
+              <img src="img/scissiors.png" style="width: 100px;" /></button
+            >&emsp;
+            <button @click="rock" class="btn btn-danger rock">
+              <img src="img/rock.png" style="width: 100px;" /></button
+            >&emsp;
+            <button @click="paper" class="btn btn-success paper">
+              <img src="img/paper.png" style="width: 100px;" /></button
+            >&emsp;
+          </div>
+          <br />
+        </div>
+        <div class="fa-2x col-md-6 col-md-offset-3">
+          <div>玩家勝利次數 : <span>{{ pWin }}</span></div>
+          <div>電腦勝利次數 : <span>{{ cWin }}</span></div>
+          <div>平手次數 : <span>{{ draw }}</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          pVal: new Number(),
+          cVal: new Number(),
+          pUrl: "",
+          cUrl: "",
+          pWin: 0,
+          cWin: 0,
+          draw: 0,
+          msg: "",
+        },
+        methods: {
+          scissor() {
+            this.pVal = 0;
+            this.WinOrLose();
+          },
+          rock() {
+            this.pVal = 1;
+            this.WinOrLose();
+          },
+          paper() {
+            this.pVal = 2;
+            this.WinOrLose();
+          },
+          win() {
+            this.pWin += 1;
+            this.msg = "玩家贏!";
+          },
+          lose() {
+            this.cWin += 1;
+            this.msg = "電腦贏!";
+          },
+          pdraw() {
+            this.draw += 1;
+            this.msg = "平手!";
+          },
+          WinOrLose() {
+            this.cVal = parseInt(Math.random() * 3);
+            const urlMap = {
+              0: "img/scissiors.png",
+              1: "img/rock.png",
+              2: "img/paper.png",
+            };
+            this.pUrl = urlMap[this.pVal];
+            this.cUrl = urlMap[this.cVal];
+
+            if (this.pVal == 0 && this.cVal == 2) this.win();
+            else if (this.pVal == 1 && this.cVal == 0) this.win();
+            else if (this.pVal == 2 && this.cVal == 1) this.win();
+            else if (this.pVal == 2 && this.cVal == 0) this.lose();
+            else if (this.pVal == 0 && this.cVal == 1) this.lose();
+            else if (this.pVal == 1 && this.cVal == 2) this.lose();
+            else this.pdraw();
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
